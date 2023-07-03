@@ -1,7 +1,7 @@
 package main
 
 import (
-	conv "Projects/currencyConverter/server"
+	conv "currencyConverter/server"
 	"encoding/json"
 	"log"
 	"net/http"
@@ -18,6 +18,7 @@ const (
 	notAllowMethod           = "Method not allowed!!"
 	dateFormat               = "2006-01-02 15:04:05"
 	serverStartString        = "Web-server starting on http://localhost"
+	loc                      = "Europe/Moscow"
 )
 
 func handler(w http.ResponseWriter, r *http.Request) {
@@ -36,10 +37,11 @@ func handler(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, inputErr, notAllowMethodStatusCode)
 		return
 	}
+	location, _ := time.LoadLocation(loc)
 	response := struct {
 		MsgTime string
 		Value   decimal.Decimal
-	}{time.Now().Format(dateFormat), value}
+	}{time.Now().In(location).Format(dateFormat), value}
 	err = json.NewEncoder(w).Encode(&response)
 	if err != nil {
 		log.Fatal(err)
