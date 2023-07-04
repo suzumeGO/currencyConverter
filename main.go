@@ -19,11 +19,14 @@ const (
 	dateFormat               = "2006-01-02 15:04:05"
 	serverStartString        = "Web-server starting on http://localhost"
 	loc                      = "Europe/Moscow"
+	cors                     = "Access-Control-Allow-Origin"
+	all                      = "*"
 )
 
 func handler(w http.ResponseWriter, r *http.Request) {
 	if r.Method != http.MethodPost {
 		w.Header().Set(allowHeader, http.MethodPost)
+		w.Header().Set(cors, all)
 		http.Error(w, notAllowMethod, notAllowMethodStatusCode)
 		return
 	}
