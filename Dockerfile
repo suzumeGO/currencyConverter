@@ -5,6 +5,6 @@ COPY . ./
 EXPOSE 8081
 RUN go install currencyConverter
 RUN go build -o main
-CMD ["./main"]
+ENTRYPOINT ["./main"]
 
 
